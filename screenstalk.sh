@@ -10,15 +10,11 @@ print_help () {
   echo -t and -n will be asked if not specified
 }
 
-while getopts "t:n:h?" opt; do
+while getopts "t:h?" opt; do
   case "$opt" in
     t) # time / interval
       napset=1
       nap=$OPTARG
-      ;;
-    n) # filename
-      nameset=1
-      name=$OPTARG
       ;;
     h)
       print_help
@@ -31,8 +27,6 @@ done
 
 ne=$(( nap * 60 ))
 
-[[ ! $nameset == 1 ]] && read -p "Enter filename:" name
-
 save_dir="$HOME/screenstalk"
 
 if [ ! -d $save_dir ]
@@ -44,7 +38,7 @@ i=0
 while true
 do
 
-  screen="$save_dir/$(date +%Y%m%d_%H%M%S)_${name}_$i.jpg"
+  screen="$save_dir/$(date +%Y%m%d_%H%M%S)_$i.jpg"
   echo fullpath: $screen
 
   import -window root $screen 
