@@ -1,14 +1,5 @@
 #!/bin/sh
 
-hash xwd 2>&-
-if [ $? -eq 0 ]
-then
-  cmd=`xwd -root | convert xwd:- ` 
-else
-  echo "xwd not installed on system"
-  exit 0
-fi
-
 echo -n "Enter number of minutes between screen captures:"
 read nap
 
@@ -36,9 +27,8 @@ do
   exe=$cmd $screen
   #echo "$exe"
   #$exe
- 
-  #An error of some sort seems to be coming from this line but I'm not sure what
-  xwd -root | convert xwd:- $screen 
+
+  import -window root $screen 
 
   sleep $ne 
   i=$(( $i + 1 ))
