@@ -2,12 +2,11 @@
 OPTIND=1
 
 print_help () {
-  echo Usage: screenstalk.sh [OPTIONS]
-  echo Options:
-  echo  -t       interval in minutes
-  echo  -n       part of filename
-  echo  -h       print help (this message)
-  echo -t and -n will be asked if not specified
+  echo "Usage: screenstalk.sh [OPTIONS]         "
+  echo "Options:                                "
+  echo " -t       interval in minutes           "
+  echo " -h       print help (this message)     "
+  echo "-t and -n will be asked if not specified"
 }
 
 while getopts "t:h?" opt; do
