@@ -12,7 +12,6 @@ print_help_and_exit () {
   echo "Options:                                "
   echo " -t       interval   (default: 10m)     "
   echo " -h       print help (this message)     "
-  echo "-t will be asked if not specified"
   exit $1
 }
 
