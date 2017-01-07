@@ -8,7 +8,7 @@ save_dir="$HOME/screenstalk"
 
 # init functions
 print_help_and_exit () {
-  echo "Usage: screenstalk.sh [OPTIONS]"
+  echo "Usage: screenstalk [OPTIONS]"
   echo "Options:"
   echo " -t       interval   (default: 10m)"
   echo " -h       print help (this message)"
