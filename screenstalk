@@ -27,10 +27,9 @@ while getopts "t:h?" opt; do
     t) # time / interval
       nap=$OPTARG
       ;;
-    h)
+    h|?)
       print_help_and_exit 0
       ;;
-    *)
   esac
 done
 
