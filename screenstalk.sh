@@ -1,47 +1,55 @@
 #!/bin/bash
-OPTIND=1
 
-print_help () {
+# init vars
+OPTIND=1
+nap=10m
+save_dir="$HOME/screenstalk"
+[[ ! -d $save_dir ]] && mkdir $save_dir
+
+# init functions
+print_help_and_exit () {
   echo "Usage: screenstalk.sh [OPTIONS]         "
   echo "Options:                                "
-  echo " -t       interval in minutes           "
+  echo " -t       interval   (default: 10m)     "
   echo " -h       print help (this message)     "
-  echo "-t and -n will be asked if not specified"
+  echo "-t will be asked if not specified"
+  exit $1
 }
 
+loop_stop () {
+  echo
+  echo "Interrupt signal received"
+  exit 0
+}
+
+# getopts
 while getopts "t:h?" opt; do
   case "$opt" in
     t) # time / interval
-      napset=1
       nap=$OPTARG
       ;;
     h)
-      print_help
+      print_help_and_exit 0
       ;;
     *)
   esac
 done
 
-[[ ! $napset == 1 ]] && read -p "Enter number of minutes between screen captures:" nap
+trap loop_stop INT
 
-ne=$(( nap * 60 ))
-
-save_dir="$HOME/screenstalk"
-
-if [ ! -d $save_dir ]
-then
-  mkdir $save_dir 
-fi
-
+# the loop
 i=0
-while true
-do
+while true; do
+  sleep $nap
+  if [[ $? == 1 ]]; then
+    echo "Invalid interval"
+    exit 1
+  fi
 
   screen="$save_dir/$(date +%Y%m%d_%H%M%S)_$i.jpg"
   echo fullpath: $screen
 
-  import -window root $screen 
+  import -window root $screen
 
-  sleep $ne 
   i=$(( $i + 1 ))
 done
