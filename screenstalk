@@ -3,6 +3,8 @@
 # init vars
 OPTIND=1
 nap=10m
+notif=0
+verbose=0
 save_dir="$HOME/screenstalk"
 [[ ! -d $save_dir ]] && mkdir $save_dir
 
@@ -11,21 +13,31 @@ print_help_and_exit () {
   echo "Usage: screenstalk [OPTIONS]"
   echo "Options:"
   echo " -t       interval   (default: 10m)"
+  echo " -n       send a notification before every screenshot"
+  echo " -v       be verbose"
   echo " -h       print help (this message)"
   exit $1
 }
 
 loop_stop () {
-  echo
-  echo "Interrupt signal received"
+  if [[ $verbose == 1 ]]; then
+    echo
+    echo "Interrupt signal received"
+  fi
   exit 0
 }
 
 # getopts
-while getopts "t:h?" opt; do
+while getopts "t:nvh?" opt; do
   case "$opt" in
     t) # time / interval
       nap=$OPTARG
+      ;;
+    n)
+      notif=1
+      ;;
+    v)
+      verbose=1
       ;;
     h|?)
       print_help_and_exit 0
@@ -45,8 +57,8 @@ while true; do
   fi
 
   screen="$save_dir/$(date +%Y%m%d_%H%M%S)_$i.jpg"
-  echo fullpath: $screen
-
+  [[ $verbose == 1 ]] && echo fullpath: $screen
+  [[ $notif == 1 ]] && notify-send "ScreenStalk" "Taking screenshot..."
   import -window root $screen
 
   i=$(( $i + 1 ))
