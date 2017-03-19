@@ -17,4 +17,6 @@ WTFPL v2, see LICENSE
 Usage: screenstalk [OPTIONS]
 Options:
  -t       interval   (default: 10m)
+ -n       send a notification before every screenshot
+ -v       be verbose
  -h       print help (this message)
